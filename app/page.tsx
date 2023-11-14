@@ -40,20 +40,20 @@ const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
   
 };
   
- const fileToBlob = (file: File | null): Promise<Blob | null> => {
-    return new Promise((resolve) => {
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          const blob = new Blob([reader.result as ArrayBuffer]);
-          resolve(blob);
-        };
-        reader.readAsArrayBuffer(file);
-      } else {
-        resolve(null);
-      }
-    });
-  };
+//  const fileToBlob = (file: File | null): Promise<Blob | null> => {
+//     return new Promise((resolve) => {
+//       if (file) {
+//         const reader = new FileReader();
+//         reader.onloadend = () => {
+//           const blob = new Blob([reader.result as ArrayBuffer]);
+//           resolve(blob);
+//         };
+//         reader.readAsArrayBuffer(file);
+//       } else {
+//         resolve(null);
+//       }
+//     });
+//   };
 
   
 // const compressAndSubmit = async (imageFile: File | null) => {
@@ -100,7 +100,7 @@ const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const response = await fetch('/api/uploadform', 
       { method: 'POST', body: formData,  });
     
-    
+    console.log(response)
 };
 
 
