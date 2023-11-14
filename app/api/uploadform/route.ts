@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 import { randomUUID } from 'crypto';
 
 
@@ -10,7 +10,7 @@ const supabaseKey = process.env.SUPABASE_KEY!
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-export async function POST(request: NextRequest, response: NextResponse) {
+export async function POST(request: NextRequest) {
     var positionID = ''
     const form = await request.formData()
     for (let [key,val] of form.entries()){
@@ -36,7 +36,6 @@ export async function POST(request: NextRequest, response: NextResponse) {
         
     }
         
-    return response
 }
 
 
