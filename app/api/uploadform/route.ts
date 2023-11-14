@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
-import { NextAPIRequest, NextAPIResponse } from 'next/server';
-// import formidable, { File } from 'formidable-serverless';
-// import sharp from 'sharp';
+import { NextRequest, NextResponse } from 'next/server';
+import { randomUUID } from 'crypto';
+
 
 
 const supabaseUrl = process.env.SUPABASE_URL!
@@ -10,21 +10,36 @@ const supabaseKey = process.env.SUPABASE_KEY!
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-export async function POST(request: NextAPIRequest, response: NextAPIResponse) {
+export async function POST(request: NextRequest, response: NextResponse) {
+    var positionID = ''
     const form = await request.formData()
-    // const form_value = form.getAll("positionID")
+    for (let [key,val] of form.entries()){
+        
+        if (key == 'positionID') {
+            var positionID = String(val)
+        }        
+        
+        const uuid = randomUUID()
+        if (key == 'image1' || key == 'image2') {
+            var uuid_final = uuid + positionID            
+            
+            
+            const {data, error} = await supabase
+            .storage
+            .from('storeaudits')
+            .upload(uuid_final , val, {
+                cacheControl: '3600',
+                upsert: false
+            })
+
+        }
+        
+    }
+        
     return form
 }
 
 
-// SUPABASE
-// const { data, error } = await supabase
-//   .storage
-//   .from('storeaudits')
-//   .upload(positionID + "/" , image_actual, {
-//     cacheControl: '3600',
-//     upsert: false
-//   })
 
 
     
