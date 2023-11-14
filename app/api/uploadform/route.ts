@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
                 cacheControl: '3600',
                 upsert: false
             })
-            
+            console.log(data,error)   
         }
         
     }
