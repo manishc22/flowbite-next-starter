@@ -8,31 +8,36 @@ const supabaseKey = process.env.SUPABASE_KEY!
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 export async function POST(request: NextRequest) {
-    var positionID = ''
+    
+    const array = []
     const form = await request.formData()
     for (const [key,val] of form.entries()){
         
         if (key == 'positionID') {
-            var positionID = String(val)
+            array.push(String(val))
         }        
+        if (key == 'storeName') {
+            array.push(String(val))
+        }  
         
-        const uuid = randomUUID()
+        
         if (key == 'image1' || key == 'image2') {
-            const uuid_final = uuid + positionID            
+            const uuid = randomUUID()    
             
-            
-            const {data, error} = await supabase
+            const {data} = await supabase
             .storage
             .from('storeaudits')
-            .upload(uuid_final , val, {
+            .upload(uuid , val, {
                 cacheControl: '3600',
                 upsert: false
             })
-            console.log(data,error)   
+            array.push(data)
+            
         }
         
     }
-    
+    const { error } = await supabase.from('store_audits').insert({ position_id: array[0], store_name: array[1], image1_id: array[2], image2_id: array[3] })
+    console.log(error)
 }
 
 
