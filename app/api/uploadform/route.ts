@@ -36,7 +36,7 @@ export async function POST(request: NextRequest, response: NextResponse) {
         
     }
         
-    return form
+    return response
 }
 
 
