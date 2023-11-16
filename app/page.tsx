@@ -1,13 +1,17 @@
 "use client";
 
+import imageCompression from "browser-image-compression";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useState } from "react";
 import Loading from "./loading/page";
+
 interface FormState {
   positionID: string;
   storeName: string;
   image1: File | null;
   image2: File | null;
+  compressimage1: File | null;
+  compressimage2: File | null;
 }
 
 export default function FieldAgentForm() {
@@ -18,7 +22,9 @@ export default function FieldAgentForm() {
     positionID: "",
     storeName: "",
     image1: null,
-    image2: null
+    image2: null,
+    compressimage1: null,
+    compressimage2: null
   });
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -43,11 +49,17 @@ export default function FieldAgentForm() {
     e.preventDefault();
     setLoading(true);
 
+    const options = {
+      maxSizeMB: 1
+    };
+    const compress_image1 = await imageCompression(formState.image1, options);
+    const compress_image2 = await imageCompression(formState.image2, options);
+
     const formData = new FormData();
     formData.append("positionID", formState.positionID);
     formData.append("storeName", formState.storeName);
-    if (formState.image1) formData.append("image1", formState.image1);
-    if (formState.image2) formData.append("image2", formState.image2);
+    if (compress_image1) formData.append("image1", compress_image1);
+    if (compress_image2) formData.append("image2", compress_image2);
 
     fetch("/api/uploadform", {
       method: "POST",
