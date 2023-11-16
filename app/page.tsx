@@ -10,8 +10,6 @@ interface FormState {
   storeName: string;
   image1: File | null;
   image2: File | null;
-  compressimage1: File | null;
-  compressimage2: File | null;
 }
 
 export default function FieldAgentForm() {
@@ -22,9 +20,7 @@ export default function FieldAgentForm() {
     positionID: "",
     storeName: "",
     image1: null,
-    image2: null,
-    compressimage1: null,
-    compressimage2: null
+    image2: null
   });
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,11 +45,16 @@ export default function FieldAgentForm() {
     e.preventDefault();
     setLoading(true);
 
-    const options = {
-      maxSizeMB: 1
+    const compressFile = async (imageFile: any) => {
+      const options = {
+        maxSizeMB: 1
+      };
+      return imageCompression(imageFile, options);
     };
-    const compress_image1 = await imageCompression(formState.image1, options);
-    const compress_image2 = await imageCompression(formState.image2, options);
+
+    const compress_image1 = await compressFile(formState.image1);
+
+    const compress_image2 = await compressFile(formState.image2);
 
     const formData = new FormData();
     formData.append("positionID", formState.positionID);
