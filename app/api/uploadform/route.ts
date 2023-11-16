@@ -25,7 +25,8 @@ export async function POST(request: NextRequest) {
         .from("storeaudits")
         .upload(uuid, val, {
           cacheControl: "3600",
-          upsert: false
+          upsert: false,
+          contentType: "image/jpeg"
         });
       array.push(data);
     }
