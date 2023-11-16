@@ -54,7 +54,6 @@ export default function FieldAgentForm() {
       body: formData
     }).then((res) => {
       if (res.status === 200 || res.status == 500) {
-        setLoading(false);
         router.push("/success");
       }
     });
@@ -120,6 +119,7 @@ export default function FieldAgentForm() {
               id="DealerBoard"
               type="file"
               accept="image/png, image/jpg, image/jpeg"
+              capture="environment"
               onChange={handleInputChange}
               required
             ></input>
@@ -139,6 +139,7 @@ export default function FieldAgentForm() {
               onChange={handleInputChange}
               type="file"
               accept="image/png, image/jpg, image/jpeg"
+              capture="environment"
               required
             ></input>
 
