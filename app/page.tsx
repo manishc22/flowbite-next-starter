@@ -118,8 +118,7 @@ export default function FieldAgentForm() {
               aria-describedby="user_avatar_help"
               id="DealerBoard"
               type="file"
-              accept="image/png, image/jpg, image/jpeg"
-              capture="environment"
+              // accept="image/png, image/jpg, image/jpeg"
               onChange={handleInputChange}
               required
             ></input>
@@ -138,8 +137,6 @@ export default function FieldAgentForm() {
               id="Window"
               onChange={handleInputChange}
               type="file"
-              accept="image/png, image/jpg, image/jpeg"
-              capture="environment"
               required
             ></input>
 
