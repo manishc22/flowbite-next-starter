@@ -54,6 +54,7 @@ export default function FieldAgentForm() {
       body: formData
     }).then((res) => {
       if (res.status === 200 || res.status == 500) {
+        setLoading(false);
         router.push("/success");
       }
     });
@@ -118,7 +119,7 @@ export default function FieldAgentForm() {
               aria-describedby="user_avatar_help"
               id="DealerBoard"
               type="file"
-              // accept="image/png, image/jpg, image/jpeg"
+              accept="image/*"
               onChange={handleInputChange}
               required
             ></input>
@@ -137,6 +138,7 @@ export default function FieldAgentForm() {
               id="Window"
               onChange={handleInputChange}
               type="file"
+              accept="image/*"
               required
             ></input>
 
