@@ -1,6 +1,8 @@
 export default function Loading() {
   return (
-    <>
+    <section>
+      <br />
+      <br />
       <div className="flex justify-center items-center flex-col w-full lg:p-0 p-4 sm:mb-28 mb-0">
         <div className="text-center">
           <div role="status">
@@ -21,10 +23,15 @@ export default function Loading() {
               />
             </svg>
             <span className="sr-only">Loading...</span>
+            <br />
+            <p>
+              PLEASE DO NOT REFRESH OR CLOSE THIS WINDOW. YOUR FORM IS BEING
+              SUBMITTED.
+            </p>
           </div>
         </div>
       </div>
       ;
-    </>
+    </section>
   );
 }
