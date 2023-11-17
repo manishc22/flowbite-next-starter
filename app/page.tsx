@@ -133,6 +133,7 @@ export default function FieldAgentForm() {
               id="DealerBoard"
               type="file"
               accept="image/* capture"
+              capture="environment"
               onChange={handleInputChange}
               required
             ></input>
@@ -152,6 +153,7 @@ export default function FieldAgentForm() {
               onChange={handleInputChange}
               type="file"
               accept="image/* capture"
+              capture="environment"
               required
             ></input>
 
