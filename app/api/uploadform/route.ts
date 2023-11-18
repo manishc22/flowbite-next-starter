@@ -30,8 +30,7 @@ export async function POST(request: NextRequest) {
       //     contentType: "image/jpeg"
       //   });
       const { url } = await put(uuid, val, { access: "public" });
-      console.log(url);
-      array.push(uuid);
+      array.push(url);
     }
   }
   const { error } = await supabase.from("store_audits").insert({
