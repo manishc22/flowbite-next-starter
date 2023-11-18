@@ -1,45 +1,33 @@
 import { createClient } from "@supabase/supabase-js";
-import { put } from "@vercel/blob";
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
-
 const supabaseUrl = process.env.SUPABASE_URL!;
 const supabaseKey = process.env.SUPABASE_KEY!;
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function POST(request: NextRequest) {
-  const array = [];
-  const form = await request.formData();
-  for (const [key, val] of form.entries()) {
-    if (key == "positionID") {
-      array.push(String(val));
-    }
-    if (key == "storeName") {
-      array.push(String(val));
-    }
-
-    if (key == "image1" || key == "image2") {
-      const uuid = randomUUID();
-
-      // const { data } = await supabase.storage
-      //   .from("storeaudits")
-      //   .upload(uuid, val, {
-      //     cacheControl: "3600",
-      //     upsert: false,
-      //     contentType: "image/jpeg"
-      //   });
-      const { url } = await put(uuid, val, { access: "public" });
-      array.push(url);
-    }
-  }
-  const { error } = await supabase.from("store_audits").insert({
-    position_id: array[0],
-    store_name: array[1],
-    image1_id: array[2],
-    image2_id: array[3]
+  const formdata: any = await request.formData();
+  const { positionID, storeName, image1, image2 } =
+    Object.fromEntries(formdata);
+  const uuid1 = randomUUID();
+  await supabase.storage.from("storeaudits").upload(uuid1, image1, {
+    cacheControl: "3600",
+    upsert: false,
+    contentType: "image/jpeg"
   });
-  console.log(error);
+  const uuid2 = randomUUID();
+  await supabase.storage.from("storeaudits").upload(uuid2, image2, {
+    cacheControl: "3600",
+    upsert: false,
+    contentType: "image/jpeg"
+  });
+  await supabase.from("store_audits").insert({
+    position_id: positionID,
+    store_name: storeName,
+    image1_id: uuid1,
+    image2_id: uuid2
+  });
 
   return NextResponse;
 }
