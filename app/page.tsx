@@ -47,17 +47,18 @@ export default function FieldAgentForm() {
 
     const compressFile = async (imageFile: any) => {
       const options = {
-        maxSizeMB: 1
+        maxSizeMB: 0.5,
+        useWebWorker: true,
+        maxIteration: 5
       };
       return imageCompression(imageFile, options);
     };
 
     const compress_image1 = await compressFile(formState.image1);
-
     const compress_image2 = await compressFile(formState.image2);
 
     const formData = new FormData();
-    formData.append("positionID", formState.positionID);
+    formData.append("positionID", formState.positionID.toUpperCase());
     formData.append("storeName", formState.storeName);
     if (compress_image1) formData.append("image1", compress_image1);
     if (compress_image2) formData.append("image2", compress_image2);
@@ -67,7 +68,6 @@ export default function FieldAgentForm() {
       body: formData
     }).then((res) => {
       if (res.status === 200 || res.status == 500) {
-        setLoading(false);
         router.push("/success");
       }
     });
@@ -94,10 +94,13 @@ export default function FieldAgentForm() {
                 id="positionID"
                 type="text"
                 name="positionID"
+                maxLength={10}
+                pattern="[A-Za-z]{3}-[A-Za-z]{3}-\d{2}"
+                title="Please enter the position ID in the format XXX-XXX-NN"
                 value={formState.positionID}
                 onChange={handleInputChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="XXX-XX-XXX"
+                placeholder="XXX-XXX-NN"
                 required
               ></input>
             </div>

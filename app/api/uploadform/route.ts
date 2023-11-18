@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { put } from "@vercel/blob";
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -21,14 +22,16 @@ export async function POST(request: NextRequest) {
     if (key == "image1" || key == "image2") {
       const uuid = randomUUID();
 
-      const { data } = await supabase.storage
-        .from("storeaudits")
-        .upload(uuid, val, {
-          cacheControl: "3600",
-          upsert: false,
-          contentType: "image/jpeg"
-        });
-      array.push(data);
+      // const { data } = await supabase.storage
+      //   .from("storeaudits")
+      //   .upload(uuid, val, {
+      //     cacheControl: "3600",
+      //     upsert: false,
+      //     contentType: "image/jpeg"
+      //   });
+      const { url } = await put(uuid, val, { access: "public" });
+      console.log(url);
+      array.push(uuid);
     }
   }
   const { error } = await supabase.from("store_audits").insert({
@@ -38,5 +41,6 @@ export async function POST(request: NextRequest) {
     image2_id: array[3]
   });
   console.log(error);
+
   return NextResponse;
 }
