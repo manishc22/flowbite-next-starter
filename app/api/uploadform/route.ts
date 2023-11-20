@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
-import { InsertData } from "../services/insert";
-import { UploadImage } from "../services/upload";
+import { InsertData } from "../services/route";
+import { UploadImage } from "../uploadfile/route";
 
 export async function POST(request: NextRequest) {
   const allowedOrigin = request.headers.get("options");
