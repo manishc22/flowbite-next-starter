@@ -8,9 +8,9 @@ export async function POST(request: NextRequest) {
   const { positionID, storeName, image1, image2 } =
     Object.fromEntries(formdata);
   const uuid1 = randomUUID();
-  const upload = UploadImage(uuid1, image1);
+  const upload = await UploadImage(uuid1, image1);
   const uuid2 = randomUUID();
-  const upload2 = UploadImage(uuid2, image2);
+  const upload2 = await UploadImage(uuid2, image2);
   const insert = InsertData(positionID, storeName, uuid1, uuid2);
   console.log(upload);
   console.log(upload2);
