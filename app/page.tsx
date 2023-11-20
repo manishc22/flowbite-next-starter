@@ -68,6 +68,7 @@ export default function FieldAgentForm() {
       body: formData
     }).then((res) => {
       if (res.status === 200 || res.status == 500) {
+        console.log(res.status);
         router.push("/success");
       }
     });
