@@ -1,33 +1,19 @@
-import { createClient } from "@supabase/supabase-js";
 import { randomUUID } from "crypto";
 import { NextRequest, NextResponse } from "next/server";
-const supabaseUrl = process.env.SUPABASE_URL!;
-const supabaseKey = process.env.SUPABASE_KEY!;
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { InsertData } from "../_services/insert";
+import { UploadImage } from "../_services/upload";
 
 export async function POST(request: NextRequest) {
   const formdata: any = await request.formData();
   const { positionID, storeName, image1, image2 } =
     Object.fromEntries(formdata);
   const uuid1 = randomUUID();
-  await supabase.storage.from("storeaudits").upload(uuid1, image1, {
-    cacheControl: "3600",
-    upsert: false,
-    contentType: "image/jpeg"
-  });
+  const upload = UploadImage(uuid1, image1);
   const uuid2 = randomUUID();
-  await supabase.storage.from("storeaudits").upload(uuid2, image2, {
-    cacheControl: "3600",
-    upsert: false,
-    contentType: "image/jpeg"
-  });
-  await supabase.from("store_audits").insert({
-    position_id: positionID,
-    store_name: storeName,
-    image1_id: uuid1,
-    image2_id: uuid2
-  });
-
+  const upload2 = UploadImage(uuid2, image2);
+  const insert = InsertData(positionID, storeName, uuid1, uuid2);
+  console.log(upload);
+  console.log(upload2);
+  console.log(insert);
   return NextResponse;
 }
