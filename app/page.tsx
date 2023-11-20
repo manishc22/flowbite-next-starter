@@ -49,7 +49,7 @@ export default function FieldAgentForm() {
       const options = {
         maxSizeMB: 0.5,
         useWebWorker: true,
-        maxIteration: 5
+        maxIteration: 20
       };
       return imageCompression(imageFile, options);
     };
